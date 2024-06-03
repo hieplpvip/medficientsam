@@ -1,0 +1,16 @@
+# Data loader for inferring on MedSAM validation set
+
+_target_: torch.utils.data.DataLoader
+
+dataset:
+  _target_: src.data.components.medsam_dataset.MedSAMInferDataset
+  data_dir: ${paths.cvpr2024_medsam_data_dir}/validation-box/imgs
+  image_encoder_input_size: 512
+  scale_image: true
+  normalize_image: false
+
+batch_size: null
+num_workers: 2
+prefetch_factor: 1
+pin_memory: false
+shuffle: false

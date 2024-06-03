@@ -1,0 +1,22 @@
+# @package _global_
+
+# to execute this experiment run:
+# python src/infer.py experiment=infer_medsam
+
+tags: ['infer', 'medsam']
+
+data:
+  dataset:
+    image_encoder_input_size: 1024
+    scale_image: true
+    normalize_image: false
+
+  num_workers: 2
+  prefetch_factor: 1
+  pin_memory: false # pinning memory causes high memory usage
+
+model:
+  _target_: src.models.base_sam.BaseSAM.construct_from
+  original_sam:
+    _target_: src.models.segment_anything.build_sam_vit_b
+    checkpoint: ${paths.weights_dir}/medsam/medsam_vit_b.pth

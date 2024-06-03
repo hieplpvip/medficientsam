@@ -1,0 +1,40 @@
+# @package _global_
+
+# to execute this experiment run:
+# python train.py experiment=distill_l2_no_extracted
+
+defaults:
+  - override /callbacks: distill
+  - override /data: distill_medsam
+  - override /model: distill
+
+# all parameters below will be merged with parameters from default configurations set above
+# this allows you to overwrite only specified parameters
+
+tags: ['distill', 'efficientvit']
+
+seed: 42
+
+test: false
+
+trainer:
+  min_epochs: 8
+  max_epochs: 8
+  gradient_clip_val: 0.5
+  limit_val_batches: 0
+  num_sanity_val_steps: 0
+
+model:
+  student_net:
+    _target_: src.models.efficientvit.sam_model_zoo.create_sam_model
+    name: l2
+    pretrained: false
+  teacher_net:
+    _target_: src.models.segment_anything.build_sam_vit_b
+    checkpoint: ${paths.weights_dir}/medsam/medsam_vit_b.pth
+
+logger:
+  wandb:
+    tags: ${tags}
+    group: 'medficientsam'
+    name: 'distill_l2_no_extracted'

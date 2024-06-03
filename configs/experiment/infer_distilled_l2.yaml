@@ -1,0 +1,35 @@
+# @package _global_
+
+# to execute this experiment run:
+# python src/infer.py experiment=infer_distilled_l2
+
+tags: ['infer', 'efficientvit']
+
+data:
+  dataset:
+    image_encoder_input_size: 512
+    prompt_encoder_input_size: 1024
+    scale_image: true
+    normalize_image: false
+
+  num_workers: 4
+  prefetch_factor: 1
+  pin_memory: true
+
+model:
+  _target_: src.models.base_sam.BaseSAM.construct_from
+
+  original_sam:
+    _target_: src.models.segment_anything.build_sam_vit_b
+    checkpoint: ${paths.weights_dir}/medsam/medsam_vit_b.pth
+
+  distill_lit_module:
+    _target_: src.models.distill_module.DistillLitModule.load_from_checkpoint
+    checkpoint_path: ${paths.weights_dir}/distilled-l2/step_400000.ckpt
+    student_net:
+      _target_: src.models.efficientvit.sam_model_zoo.create_sam_model
+      name: l2
+      pretrained: false
+    teacher_net:
+      _target_: src.models.segment_anything.build_sam_vit_b
+      checkpoint: ${paths.weights_dir}/medsam/medsam_vit_b.pth

@@ -1,0 +1,21 @@
+FROM pytorch/pytorch:latest
+
+RUN groupadd -r user && useradd -m --no-log-init -r -g user user
+RUN apt-get update && apt-get install ffmpeg libsm6 libxext6 time -y
+
+RUN mkdir -p /opt/app /inputs /outputs \
+    && chown user:user /opt/app /inputs /outputs
+
+USER user
+WORKDIR /opt/app
+ENV PATH="/home/user/.local/bin:${PATH}"
+
+RUN python -m pip install --user -U pip && python -m pip install --user pip-tools
+
+RUN pip install opencv-python pandas tqdm timm onnx onnxsim onnxruntime
+COPY --chown=user:user src src
+COPY --chown=user:user infer_scripts/predict.sh predict.sh
+COPY --chown=user:user infer_scripts/infer_torch.py infer.py
+
+ARG EXPORTED_MODEL_PATH=weights/finetuned-l1-augmented/e2_torch
+COPY --chown=user:user ${EXPORTED_MODEL_PATH}/model.pth model.pth

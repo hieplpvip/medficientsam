@@ -1,0 +1,33 @@
+# Lightning data module for finetuning whole SAM pipeline on MedSAM dataset
+
+_target_: src.data.medsam_datamodule.MedSAMDataModule
+train_val_test_split: [0.9, 0.05, 0.05]
+batch_size: 32
+num_workers: 32
+pin_memory: true
+
+dataset:
+  _target_: src.data.components.medsam_dataset.MedSAMTrainDataset
+  _partial_: true
+  data_dir: ${paths.cvpr2024_medsam_data_dir}/train_npz
+  image_encoder_input_size: 512
+  bbox_random_shift: 5
+  mask_num: 5
+  data_aug: true
+  scale_image: true
+  normalize_image: false
+  limit_npz: null
+  limit_sample: null
+  aug_transform:
+    _target_: albumentations.Compose
+    transforms:
+      - _target_: albumentations.HorizontalFlip
+        p: 0.5
+      - _target_: albumentations.VerticalFlip
+        p: 0.5
+      - _target_: albumentations.ShiftScaleRotate
+        shift_limit: 0.0625
+        scale_limit: 0.2
+        rotate_limit: 90
+        border_mode: 0
+        p: 0.5

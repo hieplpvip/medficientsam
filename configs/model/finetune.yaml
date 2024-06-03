@@ -1,0 +1,21 @@
+# Lightning module for finetuning whole SAM pipeline
+
+_target_: src.models.finetune_module.FinetuneLitModule
+
+optimizer:
+  _target_: torch.optim.AdamW
+  _partial_: true
+  lr: 0.000002
+
+scheduler:
+  _target_: torch.optim.lr_scheduler.CosineAnnealingLR
+  _partial_: true
+  T_max: 345000
+
+scheduler_interval: step
+
+criterion:
+  _target_: src.losses.SAMLoss
+  dice_loss_weight: 1.0
+  focal_loss_weight: 20.0
+  iou_loss_weight: 1.0

@@ -1,0 +1,10 @@
+# @package _global_
+
+# to execute this experiment run:
+# python src/export_onnx.py experiment=export_finetuned_l1_cpp
+
+defaults:
+  - export_finetuned_l1_onnx
+
+encoder_config:
+  preprocess_image: false

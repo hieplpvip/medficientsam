@@ -1,0 +1,15 @@
+[submodule "cpp/libs/xsimd"]
+	path = cpp/libs/xsimd
+	url = https://github.com/xtensor-stack/xsimd.git
+[submodule "cpp/libs/xtensor"]
+	path = cpp/libs/xtensor
+	url = https://github.com/xtensor-stack/xtensor.git
+[submodule "cpp/libs/xtensor-io"]
+	path = cpp/libs/xtensor-io
+	url = https://github.com/xtensor-stack/xtensor-io.git
+[submodule "cpp/libs/xtl"]
+	path = cpp/libs/xtl
+	url = https://github.com/xtensor-stack/xtl.git
+[submodule "cpp/libs/zlib-ng"]
+	path = cpp/libs/zlib-ng
+	url = https://github.com/zlib-ng/zlib-ng.git

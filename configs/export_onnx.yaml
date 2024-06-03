@@ -1,0 +1,25 @@
+defaults:
+  - _self_
+  - model: null
+  - paths: default
+  - extras: default
+  - hydra: default
+  - experiment: null
+
+task_name: 'export_onnx'
+
+tags: ['export']
+
+device: cpu
+
+output_dir: ${paths.output_dir}
+
+encoder_config:
+  preprocess_image: true
+  image_encoder_input_size: 512
+  scale_image: true
+  normalize_image: false
+
+opset: 17
+
+simplify: true

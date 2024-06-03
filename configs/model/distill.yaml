@@ -1,0 +1,16 @@
+# Lightning module for distilling image encoder
+
+_target_: src.models.distill_module.DistillLitModule
+
+optimizer:
+  _target_: torch.optim.AdamW
+  _partial_: true
+  lr: 0.075
+  weight_decay: 0.0005
+
+scheduler:
+  _target_: torch.optim.lr_scheduler.ExponentialLR
+  _partial_: true
+  gamma: 0.5
+
+scheduler_interval: epoch

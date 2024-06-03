@@ -1,0 +1,24 @@
+# @package _global_
+
+# to execute this experiment run:
+# python src/export_torch.py experiment=export_finetuned_l1_torch
+
+tags: ['export', 'efficientvit']
+
+encoder_config:
+  image_encoder_input_size: 512
+  scale_image: true
+  normalize_image: false
+
+model:
+  _target_: src.models.base_sam.BaseSAM.construct_from
+
+  finetune_lit_module:
+    _target_: src.models.finetune_module.FinetuneLitModule.load_from_checkpoint
+    checkpoint_path: ${paths.weights_dir}/finetuned-l1-augmented/best.ckpt
+    model:
+      _target_: src.models.base_sam.BaseSAM.construct_from
+      original_sam:
+        _target_: src.models.efficientvit.sam_model_zoo.create_sam_model
+        name: l1
+        pretrained: false

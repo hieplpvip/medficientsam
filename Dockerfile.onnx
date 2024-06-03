@@ -1,0 +1,12 @@
+FROM openvino/onnxruntime_ep_ubuntu20:latest
+USER root
+
+RUN pip install --upgrade pip setuptools wheel
+RUN pip install lru-dict opencv-python-headless
+RUN mkdir -p /sam
+
+WORKDIR /sam
+COPY infer_scripts/predict.sh predict.sh
+COPY infer_scripts/infer_onnx_minimal.py infer.py
+COPY logs/export_onnx/runs/2024-03-28_23-14-59/onnx/encoder.optimized.onnx encoder.onnx
+COPY logs/export_onnx/runs/2024-03-28_23-14-59/onnx/decoder.optimized.onnx decoder.onnx

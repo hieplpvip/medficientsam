@@ -1,0 +1,18 @@
+defaults:
+  - _self_
+  - data: infer_medsam
+  - model: null
+  - paths: default
+  - extras: default
+  - hydra: default
+  - experiment: null
+
+task_name: 'infer'
+
+tags: ['infer']
+
+device: cuda
+
+save_overlay: false
+
+output_dir: ${paths.output_dir}

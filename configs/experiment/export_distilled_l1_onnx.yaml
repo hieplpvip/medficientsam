@@ -1,0 +1,29 @@
+# @package _global_
+
+# to execute this experiment run:
+# python src/export_onnx.py experiment=export_finetuned_l1_onnx
+
+tags: ['export', 'efficientvit']
+
+encoder_config:
+  image_encoder_input_size: 512
+  scale_image: true
+  normalize_image: false
+
+model:
+  _target_: src.models.base_sam.BaseSAM.construct_from
+
+  original_sam:
+    _target_: src.models.segment_anything.build_sam_vit_b
+    checkpoint: ${paths.weights_dir}/medsam/medsam_vit_b.pth
+
+  distill_lit_module:
+    _target_: src.models.distill_module.DistillLitModule.load_from_checkpoint
+    checkpoint_path: ${paths.weights_dir}/distilled-l1/step_400000.ckpt
+    student_net:
+      _target_: src.models.efficientvit.sam_model_zoo.create_sam_model
+      name: l1
+      pretrained: false
+    teacher_net:
+      _target_: src.models.segment_anything.build_sam_vit_b
+      checkpoint: ${paths.weights_dir}/medsam/medsam_vit_b.pth

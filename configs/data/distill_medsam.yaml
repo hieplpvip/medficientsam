@@ -1,0 +1,22 @@
+# Lightning data module for distilling image encoder on MedSAM dataset
+
+_target_: src.data.medsam_datamodule.MedSAMDataModule
+train_val_test_split: [1, 0, 0]
+batch_size: 8
+num_workers: 8
+pin_memory: true
+
+dataset:
+  _target_: src.data.components.medsam_dataset.MedSAMDistillDataset
+  _partial_: true
+  data_dir: ${paths.cvpr2024_medsam_data_dir}/train_npz
+  embedding_dir: null
+  image_encoder_input_size: 512
+  teacher_image_encoder_input_size: 1024
+  data_aug: true
+  scale_image: true
+  normalize_image: false
+  teacher_scale_image: true
+  teacher_normalize_image: false
+  limit_npz: null
+  limit_sample: 400000

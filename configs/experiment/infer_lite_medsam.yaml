@@ -1,0 +1,22 @@
+# @package _global_
+
+# to execute this experiment run:
+# python src/infer.py experiment=infer_lite_medsam
+
+tags: ['infer', 'medsam']
+
+data:
+  dataset:
+    image_encoder_input_size: 256
+    scale_image: true
+    normalize_image: false
+
+  num_workers: 4
+  prefetch_factor: 1
+  pin_memory: true
+
+model:
+  _target_: src.models.base_sam.BaseSAM.construct_from
+  original_sam:
+    _target_: src.models.lite_medsam.build_lite_medsam
+    checkpoint: ${paths.weights_dir}/medsam/lite_medsam.pth
