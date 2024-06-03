@@ -39,6 +39,29 @@ The Docker images can be found [here](https://drive.google.com/drive/folders/18l
 
 ## Data Preparation
 
+You need to participate in the [challenge](https://www.codabench.org/competitions/1847/) to access the dataset.
+After downloading it, copy `.env.example` to `.env` and modify `CVPR2024_MEDSAM_DATA_DIR` to correct path.
+
+The directory structure should look like this:
+
+```
+CVPR24-MedSAMLaptopData
+├── train_npz
+│   ├── CT
+│   ├── Dermoscopy
+│   ├── Endoscopy
+│   ├── Fundus
+│   ├── Mammography
+│   ├── Microscopy
+│   ├── MR
+│   ├── OCT
+│   ├── PET
+│   ├── US
+│   └── XRay
+├── validation-box
+    └── imgs
+```
+
 ## Training
 
 See [train_scripts](./train_scripts/).
