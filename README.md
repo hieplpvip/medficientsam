@@ -14,7 +14,7 @@ conda env create -f environment.yaml -n medficientsam
 conda activate medficientsam
 ```
 
-<!-- ### Environment and Requirements
+### Environment and Requirements
 
 | System                  | Ubuntu 22.04.5 LTS              |
 | ----------------------- | ------------------------------- |
@@ -23,7 +23,7 @@ conda activate medficientsam
 | GPU (number and type)   | One NVIDIA A100 40G             |
 | CUDA version            | 12.0                            |
 | Programming language    | Python 3.10                     |
-| Deep learning framework | torch 2.2.2, torchvision 0.17.2 | -->
+| Deep learning framework | torch 2.2.2, torchvision 0.17.2 |
 
 ## Results on Validation Set
 
@@ -36,6 +36,13 @@ conda activate medficientsam
 ## Reproducibility
 
 The Docker images can be found [here](https://drive.google.com/drive/folders/18lXbOa-zbn3GhagknlzxOXmtKGXY6nIk?usp=sharing).
+
+```
+docker load -i seno.tar.gz
+docker container run -m 8G --name seno --rm -v $PWD/test_input/:/workspace/inputs/ -v $PWD/test_output/:/workspace/outputs/ seno:latest /bin/bash -c "sh predict.sh"
+```
+
+To measure the running time (including Docker starting time), see https://github.com/bowang-lab/MedSAM/blob/LiteMedSAM/CVPR24_time_eval.py
 
 ## Data Preparation
 
@@ -92,12 +99,6 @@ python src/export_onnx.py experiment=export_finetuned_l0_cpp output_dir=weights/
 docker build -f Dockerfile.cpp -t seno.fat .
 slim build --target seno.fat --tag seno --http-probe=false --include-workdir --mount $PWD/test_input/:/workspace/inputs/ --mount $PWD/test_output/:/workspace/outputs/ --exec "sh predict.sh"
 docker save seno | gzip -c > seno.tar.gz
-```
-
-### Run
-
-```
-docker container run -m 8G --name seno --rm -v $PWD/test_input/:/workspace/inputs/ -v $PWD/test_output/:/workspace/outputs/ seno:latest /bin/bash -c "sh predict.sh"
 ```
 
 ## References
