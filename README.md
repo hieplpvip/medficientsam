@@ -25,7 +25,10 @@ conda activate medficientsam
 | Programming language    | Python 3.10                     |
 | Deep learning framework | torch 2.2.2, torchvision 0.17.2 |
 
-## Results on Validation Set
+## Results
+
+Accuracy metrics are evaluated on the public validation set of [CVPR 2024 Segment Anything In Medical Images On Laptop Challenge](https://www.codabench.org/competitions/1847/).
+The computational metrics are obtained on an Intel(R) Core(TM) i9-10900K.
 
 | Model            | Resolution | Params | FLOPs  |    DSC     |    NSD     | 2D Run Time | 3D Run Time | 2D Memory Usage | 2D Memory Usage |
 | ---------------- | :--------: | :----: | :----: | :--------: | :--------: | :---------: | :---------: | :-------------: | :-------------: |
